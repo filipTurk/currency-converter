@@ -1,0 +1,33 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Currency Converter</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>EUR to USD Converter</h1>
+    <input type="number" id="amount" placeholder="Enter amount in EUR" />
+    <button onclick="convert()">Convert</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    async function convert() {
+      const amount = document.getElementById('amount').value;
+      const res = await fetch(`/api/convert?amount=${amount}`);
+      const data = await res.json();
+      const result = document.getElementById('result');
+
+      if (data.error) {
+        result.innerHTML = `<p class="error">${data.error}</p>`;
+      } else {
+        result.innerHTML = `<p>${data.eur} EUR = <strong>${data.usd} USD</strong></p>
+                            <p>Exchange Rate: ${data.rate}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
